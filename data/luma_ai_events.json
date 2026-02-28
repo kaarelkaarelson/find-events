@@ -6,7 +6,7 @@
       "calendar_slug": "nvidia-gtc",
       "calendar_url": "https://luma.com/nvidia-gtc",
       "event_count": 18,
-      "subscriber_count": 348,
+      "subscriber_count": 350,
       "start_at": "2026-03-16T16:00:00.000Z",
       "end_at": "2026-03-19T16:00:00.000Z",
       "geo_city": "San Jose",
@@ -2768,7 +2768,7 @@
       "location_type": "offline",
       "url_slug": "z2qae6kx",
       "url": "https://luma.com/z2qae6kx",
-      "calendar_slug": null,
+      "calendar_slug": "oss4ai",
       "featured_city_slug": "",
       "host_usernames": [
         "SVAIHub"

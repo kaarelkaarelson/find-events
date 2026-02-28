@@ -1,0 +1,72 @@
+This selection prioritizes high-density networking with founders and VCs, exclusive venues (The Battery, South Park Commons), and deep technical building (Mistral, PyTorch).
+
+### Top 20 High-Signal Events (Feb 28 – Mar 28)
+
+1. **Build with Intent: Leading Engineering with Eric Schmidt**
+   *   **Date:** Mar 10 | **Location:** The Battery, SF
+   *   **Rationale:** The highest-signal event in the window. Exclusive access to Eric Schmidt and a curated group of CTOs at a premier SF private club.
+2. **-1 to World Labs with Dr. Fei-Fei Li**
+   *   **Date:** Mar 18 | **Location:** South Park Commons, SF
+   *   **Rationale:** South Park Commons is a top-tier community for "negative-one to zero" founders. Fei-Fei Li is a foundational figure in AI; this is a must-attend for serious builders.
+3. **Llama Lounge 24: at Google with DeepMind**
+   *   **Date:** Mar 19 | **Location:** Mountain View
+   *   **Rationale:** The premier AI startup mixer in the Bay Area. High density of CEOs, VCs, and researchers from Google DeepMind.
+4. **Mistral Worldwide Hackathon - SF Edition**
+   *   **Date:** Feb 28 – Mar 1 | **Location:** San Francisco
+   *   **Rationale:** Mistral is the leading European AI contender. This hackathon will attract the most serious technical talent in the city right now.
+5. **AI+ Renᴬᴵssance Conference**
+   *   **Date:** Mar 15 | **Location:** San Francisco
+   *   **Rationale:** A massive gathering of 2,000 professionals and 40+ pioneers. Excellent for a broad but high-quality survey of the current AI landscape.
+6. **Py AI Conference (ft. Guido van Rossum)**
+   *   **Date:** Mar 10 | **Location:** San Francisco
+   *   **Rationale:** Featuring the creator of Python. This is a high-signal technical event for engineers looking to meet the architects of the tools they use daily.
+7. **Consumer AI Accelerator Demo Day**
+   *   **Date:** Mar 3 | **Location:** San Francisco
+   *   **Rationale:** Showcasing startups with $50M+ combined ARR. Attracts top-tier investors from Lightspeed and Microsoft M12.
+8. **OpenEnv Hackathon ($100K Prize Pool)**
+   *   **Date:** Mar 7 | **Location:** Shack15, SF
+   *   **Rationale:** High stakes and top-tier judges from Meta and Hugging Face. Shack15 is a central hub for the SF tech elite.
+9. **Unprompted: GTC Dinner with Modular & LlamaIndex**
+   *   **Date:** Mar 16 | **Location:** San Jose
+   *   **Rationale:** An intimate, technical dinner with the founders of Modular and LlamaIndex. Extremely high signal for AI infrastructure.
+10. **-1 to Elad Gil**
+    *   **Date:** Mar 5 | **Location:** South Park Commons, SF
+    *   **Rationale:** Elad Gil is one of the most successful solo capitalists/advisors in tech history. Essential for anyone interested in the mechanics of scaling unicorns.
+11. **Daytona Compute Conference**
+    *   **Date:** Mar 8 | **Location:** Chase Center, SF
+    *   **Rationale:** 1,500 builders focused on the infrastructure layer. Large scale but highly specialized, attracting the "plumbers" of the AI era.
+12. **PyTorch Helion Hackathon**
+    *   **Date:** Mar 14 | **Location:** San Francisco
+    *   **Rationale:** Deeply technical. Focuses on GPU kernel development. This will filter for the top 1% of ML engineers.
+13. **The Residency - Demo Day**
+    *   **Date:** Mar 13 | **Location:** San Francisco
+    *   **Rationale:** Spotlights founders driving $3B in value. High-caliber presentations for investors and ambitious peers.
+14. **Agent Infra Demo Night**
+    *   **Date:** Mar 4 | **Location:** San Francisco
+    *   **Rationale:** Rapid-fire demos from Composio, Braintrust, and Notion. Great for seeing what is actually being shipped in the agentic space.
+15. **Stripe Startups Build Day**
+    *   **Date:** Mar 4 | **Location:** San Francisco
+    *   **Rationale:** Features a fireside chat with Warp CEO Zach Lloyd. High utility for founders looking to monetize and scale.
+16. **AGI Royale Networking Mixer & Gala**
+    *   **Date:** Mar 5 | **Location:** San Francisco
+    *   **Rationale:** A "FAANG++ & Ivy/Stanford" filtered event. While more social, it targets the specific "smart and ambitious" demographic the user seeks.
+17. **ZeroClick Dinner for AI Builders & Operators**
+    *   **Date:** Mar 24 | **Location:** Waterbar, SF
+    *   **Rationale:** Intimate dining at a high-end venue. Focuses on monetization and agentic AI—perfect for high-level networking.
+18. **Scrappy AI Founders Go Dirt-Biking**
+    *   **Date:** Mar 7 | **Location:** San Jose
+    *   **Rationale:** High-signal social activity. Shared "thrill" experiences like this build much stronger network bonds than standard mixers.
+19. **Robotic Agents Hackathon**
+    *   **Date:** Mar 13 | **Location:** San Francisco
+    *   **Rationale:** Physical AI is the next major frontier. This event uses real hardware (arms/rovers), attracting a unique subset of engineers.
+20. **Taiwan Demo Day 2026**
+    *   **Date:** Mar 14 | **Location:** Mountain View
+    *   **Rationale:** High-impact cross-border networking. Taiwan’s hardware dominance makes this a strategic place to meet robotics and infra founders.
+
+---
+
+### Honorable Mentions (Social & Niche)
+*   **AI Builders Play Pickleball (Mar 13):** Perfect for the user's interest in social sports (tennis-adjacent).
+*   **Autonomous Business Hackathon (Mar 5):** Good for those interested in the "AI Agent as a CEO" niche.
+*   **Founding Sales Masterclass with Mark Roberge (Mar 3):** High signal for anyone on the GTM/Founder track.
+*   **FOG CITY STRIDE (Mar 7):** A social walking/networking event for a more casual weekend vibe.

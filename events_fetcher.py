@@ -6,6 +6,9 @@ import argparse
 import json
 import os
 import re
+import sys
+import threading
+import time
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlencode
@@ -24,6 +27,27 @@ LUMA_TECH_SLUG = "tech"
 LUMA_AI_SLUG = "ai"
 LUMA_SF_LATITUDE = 37.77493
 LUMA_SF_LONGITUDE = -122.41942
+STANFORD_API_EVENTS_URL = "https://events.stanford.edu/api/2/events"
+STANFORD_HAI_EVENTS_URL = "https://hai.stanford.edu/events"
+STANFORD_MLSYS_URL = "https://mlsys.stanford.edu/"
+PARTIFUL_DISCOVER_EVENTS_URL = "https://api.partiful.com/getDiscoverableEvents"
+REQUEST_TIMEOUT_SECONDS = 15
+STANFORD_DEFAULT_EXPERIENCE = "inperson"
+STANFORD_DEFAULT_ORDER = "date"
+STANFORD_DEFAULT_PP = 100
+STANFORD_DEFAULT_EVENT_TYPE_IDS = [
+    37952570034524,
+    37952570044769,
+    37952570025304,
+    38406833071942,
+    37952570040671,
+    37952570047842,
+    37952570036573,
+    37952570042720,
+    37952570027353,
+    40864883971398,
+    40490468118962,
+]
 
 
 def fetch_cerebral_valley_events(location: str = "BAY_AREA", timeout: int = 15) -> Any:
@@ -395,6 +419,231 @@ def fetch_luma_category_page_data(
     return initial_data
 
 
+def fetch_stanford_events(
+    event_type_ids: list[int] | None = None,
+    experience: str = STANFORD_DEFAULT_EXPERIENCE,
+    order: str = STANFORD_DEFAULT_ORDER,
+    timeout: int = 20,
+) -> dict[str, Any]:
+    """Fetch Stanford events from Localist API with automatic pagination."""
+    ids = event_type_ids if event_type_ids is not None else STANFORD_DEFAULT_EVENT_TYPE_IDS
+    headers = {"Accept": "application/json", "User-Agent": "Mozilla/5.0"}
+
+    all_events: list[Any] = []
+    page = 1
+    total_pages = 1
+
+    while page <= total_pages:
+        params: dict[str, Any] = {
+            "experience": experience,
+            "order": order,
+            "pp": STANFORD_DEFAULT_PP,
+            "page": page,
+            "event_types[]": ids,
+        }
+        url = f"{STANFORD_API_EVENTS_URL}?{urlencode(params, doseq=True)}"
+        request = Request(url, headers=headers, method="GET")
+        try:
+            with urlopen(request, timeout=timeout) as response:
+                body = response.read().decode("utf-8", errors="replace")
+        except HTTPError as exc:
+            detail = exc.read().decode("utf-8", errors="replace")
+            raise RuntimeError(f"Stanford HTTP {exc.code}: {detail}") from exc
+        except URLError as exc:
+            raise RuntimeError(f"Stanford request failed: {exc}") from exc
+
+        data = json.loads(body)
+        if not isinstance(data, dict):
+            raise RuntimeError("Unexpected Stanford response format: expected JSON object.")
+
+        page_info = data.get("page", {})
+        if not isinstance(page_info, dict):
+            raise RuntimeError("Unexpected Stanford response: missing page metadata.")
+
+        events = data.get("events", [])
+        if not isinstance(events, list):
+            raise RuntimeError("Unexpected Stanford response: events is not a list.")
+        all_events.extend(events)
+
+        total_pages = int(page_info.get("total", 1) or 1)
+        page += 1
+
+    return {
+        "events": all_events,
+        "page": {"current": 1, "size": STANFORD_DEFAULT_PP, "total": total_pages},
+        "meta": {
+            "fetched_pages": total_pages,
+            "experience": experience,
+            "order": order,
+            "event_type_ids": ids,
+        },
+    }
+
+
+def fetch_page_markdown_with_firecrawl(url: str, timeout: int = 30) -> str:
+    """Fetch a page as markdown using Firecrawl v2 scrape API."""
+    api_key = os.environ.get("FIRECRAWL_API_KEY")
+    if not api_key:
+        raise RuntimeError("Missing FIRECRAWL_API_KEY in environment/.env.")
+
+    body = json.dumps({"url": url, "formats": ["markdown"]}).encode("utf-8")
+    request = Request(
+        "https://api.firecrawl.dev/v2/scrape",
+        data=body,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0",
+        },
+        method="POST",
+    )
+    try:
+        with urlopen(request, timeout=timeout) as response:
+            raw = response.read().decode("utf-8", errors="replace")
+    except HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"Firecrawl HTTP {exc.code}: {detail}") from exc
+    except URLError as exc:
+        raise RuntimeError(f"Firecrawl request failed: {exc}") from exc
+
+    data = json.loads(raw)
+    if not isinstance(data, dict):
+        raise RuntimeError("Unexpected Firecrawl response format: expected JSON object.")
+
+    payload = data.get("data", {})
+    if isinstance(payload, dict):
+        markdown = payload.get("markdown")
+        if isinstance(markdown, str) and markdown.strip():
+            return markdown
+
+    markdown = data.get("markdown")
+    if isinstance(markdown, str) and markdown.strip():
+        return markdown
+
+    raise RuntimeError("Firecrawl response did not include markdown content.")
+
+
+def _load_json_env(key: str, default: dict[str, Any]) -> dict[str, Any]:
+    """Load a JSON object from environment variable or return default."""
+    raw = os.environ.get(key)
+    if not raw:
+        return dict(default)
+    try:
+        parsed = json.loads(raw)
+    except json.JSONDecodeError as exc:
+        raise RuntimeError(f"Invalid JSON in {key}: {exc}") from exc
+    if not isinstance(parsed, dict):
+        raise RuntimeError(f"{key} must be a JSON object.")
+    return parsed
+
+
+def fetch_partiful_discoverable_events(
+    timeout: int = REQUEST_TIMEOUT_SECONDS,
+    bearer_token: str | None = None,
+    request_body: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Fetch discoverable events from Partiful API with optional pagination."""
+    token = (
+        bearer_token
+        or os.environ.get("PARTIFUL_BEARER_TOKEN")
+        or os.environ.get("PARTIFUL_AUTH_TOKEN")
+    )
+    if not token:
+        raise RuntimeError("Missing PARTIFUL_BEARER_TOKEN (or PARTIFUL_AUTH_TOKEN) in environment/.env.")
+
+    base_payload = request_body if request_body is not None else _load_json_env("PARTIFUL_DISCOVER_BODY", {})
+    if not isinstance(base_payload, dict):
+        raise RuntimeError("Partiful request body must be a JSON object.")
+
+    headers = {
+        "Accept": "*/*",
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {token}",
+        "Origin": "https://partiful.com",
+        "Referer": "https://partiful.com/",
+        "User-Agent": "Mozilla/5.0",
+    }
+
+    cursor_keys = ("cursor", "next_cursor", "nextCursor", "pagination_cursor", "paginationCursor")
+
+    def find_next_cursor(payload: dict[str, Any]) -> str | None:
+        for key in ("next_cursor", "nextCursor", "cursor", "pagination_cursor", "paginationCursor"):
+            value = payload.get(key)
+            if isinstance(value, str) and value:
+                return value
+        page = payload.get("page")
+        if isinstance(page, dict):
+            for key in ("next_cursor", "nextCursor", "cursor"):
+                value = page.get(key)
+                if isinstance(value, str) and value:
+                    return value
+        return None
+
+    def find_has_more(payload: dict[str, Any], next_cursor: str | None) -> bool:
+        for key in ("has_more", "hasMore"):
+            value = payload.get(key)
+            if isinstance(value, bool):
+                return value
+        if isinstance(payload.get("page"), dict):
+            page = payload["page"]
+            for key in ("has_more", "hasMore"):
+                value = page.get(key)
+                if isinstance(value, bool):
+                    return value
+        return bool(next_cursor)
+
+    entries: list[Any] = []
+    pages = 0
+    cursor: str | None = None
+    seen_cursors: set[str] = set()
+    last_response: dict[str, Any] | None = None
+
+    while True:
+        payload = dict(base_payload)
+        if cursor:
+            chosen_key = next((k for k in cursor_keys if k in payload), "cursor")
+            payload[chosen_key] = cursor
+
+        body = json.dumps(payload).encode("utf-8")
+        request = Request(PARTIFUL_DISCOVER_EVENTS_URL, data=body, headers=headers, method="POST")
+        try:
+            with urlopen(request, timeout=timeout) as response:
+                raw = response.read().decode("utf-8", errors="replace")
+        except HTTPError as exc:
+            detail = exc.read().decode("utf-8", errors="replace")
+            raise RuntimeError(f"Partiful HTTP {exc.code}: {detail}") from exc
+        except URLError as exc:
+            raise RuntimeError(f"Partiful request failed: {exc}") from exc
+
+        data = json.loads(raw)
+        if not isinstance(data, dict):
+            raise RuntimeError("Unexpected Partiful response format: expected JSON object.")
+
+        last_response = data
+        page_entries = extract_events(data)
+        entries.extend(page_entries)
+        pages += 1
+
+        next_cursor = find_next_cursor(data)
+        has_more = find_has_more(data, next_cursor)
+        if not has_more or not next_cursor:
+            break
+        if next_cursor in seen_cursors:
+            break
+        seen_cursors.add(next_cursor)
+        cursor = next_cursor
+
+    return {
+        "events": entries,
+        "meta": {
+            "pages_fetched": pages,
+            "response_has_more": find_has_more(last_response or {}, find_next_cursor(last_response or {})),
+            "next_cursor": find_next_cursor(last_response or {}),
+        },
+        "raw": last_response if isinstance(last_response, dict) else {},
+    }
+
+
 def extract_luma_major_events_from_category_data(data: dict[str, Any]) -> list[dict[str, Any]]:
     """Extract 'Upcoming Major Events' calendars from Luma category page initialData."""
     timeline = data.get("timeline_calendars", [])
@@ -507,6 +756,90 @@ def extract_luma_ai_dataset(events_raw: dict[str, Any], major_raw: dict[str, Any
     }
 
 
+def extract_stanford_events(data: dict[str, Any]) -> list[dict[str, Any]]:
+    """Normalize Stanford Localist API events to a compact event list."""
+    rows = data.get("events", [])
+    if not isinstance(rows, list):
+        return []
+
+    items: list[dict[str, Any]] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        event = row.get("event", {})
+        if not isinstance(event, dict):
+            continue
+
+        instances = event.get("event_instances", [])
+        start_at = ""
+        end_at = ""
+        all_day = False
+        if isinstance(instances, list) and instances:
+            first = instances[0].get("event_instance", {}) if isinstance(instances[0], dict) else {}
+            if isinstance(first, dict):
+                start_at = first.get("start", "") or ""
+                end_at = first.get("end", "") or ""
+                all_day = bool(first.get("all_day", False))
+
+        geo = event.get("geo", {})
+        city = geo.get("city", "") if isinstance(geo, dict) else ""
+        state = geo.get("state", "") if isinstance(geo, dict) else ""
+        country = geo.get("country", "") if isinstance(geo, dict) else ""
+        location_parts = [p for p in [city, state, country] if p]
+
+        items.append(
+            {
+                "id": event.get("id", ""),
+                "title": event.get("title", ""),
+                "start_at": start_at,
+                "end_at": end_at,
+                "all_day": all_day,
+                "experience": event.get("experience", ""),
+                "event_types": [
+                    t.get("name", "")
+                    for t in event.get("filters", {}).get("event_types", [])
+                    if isinstance(t, dict)
+                ]
+                if isinstance(event.get("filters", {}), dict)
+                else [],
+                "location_name": event.get("location_name", "") or event.get("location", ""),
+                "location": ", ".join(location_parts),
+                "url": event.get("localist_url", ""),
+                "url_slug": event.get("urlname", ""),
+                "departments": [
+                    d.get("name", "") for d in event.get("departments", []) if isinstance(d, dict)
+                ],
+            }
+        )
+    return items
+
+
+def extract_partiful_events(data: dict[str, Any]) -> list[dict[str, Any]]:
+    """Normalize Partiful API events to a compact event list."""
+    rows = data.get("events", [])
+    if not isinstance(rows, list):
+        return []
+
+    items: list[dict[str, Any]] = []
+    for event in rows:
+        if not isinstance(event, dict):
+            continue
+        event_id = event.get("id", "") or ""
+        items.append(
+            {
+                "id": event_id,
+                "title": event.get("title", "") or "",
+                "start_at": event.get("startDate", "") or "",
+                "end_at": event.get("endDate", "") or "",
+                "timezone": event.get("timezone", "") or "",
+                "status": event.get("status", "") or "",
+                # Partiful discover payload does not always include canonical URL.
+                "url": f"https://partiful.com/e/{event_id}" if event_id else "",
+            }
+        )
+    return items
+
+
 def extract_events(data: Any) -> list[dict[str, Any]]:
     """Extract the most likely events list from nested page data."""
     if isinstance(data, list) and all(isinstance(item, dict) for item in data):
@@ -548,27 +881,78 @@ def extract_events(data: Any) -> list[dict[str, Any]]:
     return max(candidates, key=score)
 
 
-def save_cli_output(source: str, payload: Any, raw: bool) -> str:
-    """Persist CLI output to data/<source>_(raw|events).json."""
+def save_cli_output(source: str, payload: Any, raw: bool) -> str | None:
+    """Persist non-raw CLI output to data/. Raw mode does not write files."""
+    if raw:
+        return None
+
     Path("data").mkdir(parents=True, exist_ok=True)
+    if isinstance(payload, str) and not raw:
+        if source == "cv":
+            out_path = Path("data") / "cv_events.md"
+            out_path.write_text(payload, encoding="utf-8")
+            return str(out_path)
+        out_path = Path("data") / f"{source}_events.md"
+        out_path.write_text(payload, encoding="utf-8")
+        return str(out_path)
+
     suffix = "raw" if raw else "events"
     out_path = Path("data") / f"{source}_{suffix}.json"
     out_path.write_text(json.dumps(payload, indent=2, ensure_ascii=True), encoding="utf-8")
     return str(out_path)
 
 
+def run_with_spinner(label: str, fn: Any, enabled: bool = True) -> Any:
+    """Run a blocking function while showing a simple CLI spinner."""
+    if not enabled:
+        return fn()
+
+    frames = "|/-\\"
+    stop = threading.Event()
+
+    def spin() -> None:
+        idx = 0
+        while not stop.is_set():
+            sys.stdout.write(f"\r[RUN] {label:<18} {frames[idx % len(frames)]}")
+            sys.stdout.flush()
+            idx += 1
+            time.sleep(0.1)
+
+    t = threading.Thread(target=spin, daemon=True)
+    t.start()
+    try:
+        return fn()
+    finally:
+        stop.set()
+        t.join(timeout=1.0)
+        sys.stdout.write("\r")
+        sys.stdout.flush()
+
+
 if __name__ == "__main__":
     load_dotenv()
     parser = argparse.ArgumentParser(description="Fetch Cerebral Valley events.")
+    available_sources = (
+        "cv",
+        "partiful",
+        "luma_me",
+        "luma_sf",
+        "luma_genai_sf",
+        "luma_tech",
+        "luma_tech_major",
+        "luma_ai",
+        "stanford",
+        "stanford_mlsys",
+        "stanford_hai",
+    )
     parser.add_argument(
         "--source",
-        default="cerebral",
-        choices=("cerebral", "luma_me", "luma_sf", "luma_genai_sf", "luma_tech", "luma_tech_major", "luma_ai"),
-        help="Which platform to fetch from",
+        default="all",
+        choices=("all",) + available_sources,
+        help="Which platform to fetch from; defaults to all",
     )
     parser.add_argument("--location", default="BAY_AREA", help="Cerebral Valley location filter value")
     parser.add_argument("--period", default="future", help="Luma period (e.g. future, past)")
-    parser.add_argument("--timeout", type=int, default=15, help="Request timeout in seconds")
     parser.add_argument(
         "--raw",
         action="store_true",
@@ -595,104 +979,158 @@ if __name__ == "__main__":
         default=LUMA_TECH_URL,
         help="Luma category page URL (used by luma_tech_major)",
     )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Print full payload and detailed errors",
+    )
     args = parser.parse_args()
-    tech_major_raw: dict[str, Any] | None = None
-    ai_major_raw: dict[str, Any] | None = None
+    sources_to_run = available_sources if args.source == "all" else (args.source,)
 
-    try:
-        if args.source == "luma_me":
-            data = fetch_luma_me_page_events(
-                period=args.period,
-                timeout=args.timeout,
-                cookie=args.luma_cookie,
-            )
-        elif args.source == "luma_sf":
-            data = fetch_luma_discover_events(
-                discover_place_api_id=args.discover_place_api_id,
-                web_url="https://luma.com/sf",
-                timeout=args.timeout,
-                cookie=args.luma_cookie,
-            )
-        elif args.source == "luma_genai_sf":
-            data = fetch_luma_genai_sf_events(
-                page_url=args.discover_page_url,
-                discover_place_api_id=args.discover_place_api_id,
-                timeout=args.timeout,
-                cookie=args.luma_cookie,
-            )
-        elif args.source == "luma_tech":
-            data = fetch_luma_tech_events(
-                slug=args.slug,
-                latitude=LUMA_SF_LATITUDE,
-                longitude=LUMA_SF_LONGITUDE,
-                timeout=args.timeout,
-                cookie=args.luma_cookie,
-            )
-            tech_major_raw = fetch_luma_category_page_data(
-                page_url=LUMA_TECH_URL,
-                timeout=args.timeout,
-                cookie=args.luma_cookie,
-            )
-        elif args.source == "luma_tech_major":
-            data = fetch_luma_category_page_data(
-                page_url=args.category_page_url,
-                timeout=args.timeout,
-                cookie=args.luma_cookie,
-            )
-        elif args.source == "luma_ai":
-            data = fetch_luma_ai_events(
-                slug=LUMA_AI_SLUG,
-                latitude=LUMA_SF_LATITUDE,
-                longitude=LUMA_SF_LONGITUDE,
-                timeout=args.timeout,
-                cookie=args.luma_cookie,
-            )
-            ai_major_raw = fetch_luma_category_page_data(
-                page_url=LUMA_AI_URL,
-                timeout=args.timeout,
-                cookie=args.luma_cookie,
-            )
-        else:
-            data = fetch_cerebral_valley_events(location=args.location, timeout=args.timeout)
-    except RuntimeError as exc:
-        print(str(exc))
-        raise SystemExit(1)
+    if args.source == "all":
+        print("Sources:", ", ".join(sources_to_run))
 
-    if args.raw:
-        if args.source == "luma_tech":
-            output_payload = {
-                "major_raw": tech_major_raw if tech_major_raw is not None else {},
-                "events_raw": data,
-            }
-        elif args.source == "luma_ai":
-            output_payload = {
-                "major_raw": ai_major_raw if ai_major_raw is not None else {},
-                "events_raw": data,
-            }
-        else:
-            output_payload = data
-    else:
-        if args.source == "luma_me":
-            output_payload = extract_luma_me_page_events(data)
-        elif args.source == "luma_sf":
-            output_payload = extract_luma_sf_events(data)
-        elif args.source == "luma_genai_sf":
-            output_payload = extract_luma_genai_sf_events(data)
-        elif args.source == "luma_tech":
-            output_payload = extract_luma_tech_dataset(
-                events_raw=data,
-                major_raw=tech_major_raw if tech_major_raw is not None else {},
-            )
-        elif args.source == "luma_ai":
-            output_payload = extract_luma_ai_dataset(
-                events_raw=data,
-                major_raw=ai_major_raw if ai_major_raw is not None else {},
-            )
-        elif args.source == "luma_tech_major":
-            output_payload = extract_luma_major_events_from_category_data(data)
-        else:
-            output_payload = extract_events(data)
+    for source in sources_to_run:
+        state: dict[str, Any] = {"tech_major_raw": None, "ai_major_raw": None}
 
-    saved_path = save_cli_output(args.source, output_payload, raw=args.raw)
-    print(json.dumps(output_payload, indent=2, ensure_ascii=True))
-    print(f"Saved: {saved_path}")
+        def fetch_for_source() -> Any:
+            if source == "luma_me":
+                return fetch_luma_me_page_events(
+                    period=args.period,
+                    timeout=REQUEST_TIMEOUT_SECONDS,
+                    cookie=args.luma_cookie,
+                )
+            if source == "luma_sf":
+                return fetch_luma_discover_events(
+                    discover_place_api_id=args.discover_place_api_id,
+                    web_url="https://luma.com/sf",
+                    timeout=REQUEST_TIMEOUT_SECONDS,
+                    cookie=args.luma_cookie,
+                )
+            if source == "luma_genai_sf":
+                return fetch_luma_genai_sf_events(
+                    page_url=args.discover_page_url,
+                    discover_place_api_id=args.discover_place_api_id,
+                    timeout=REQUEST_TIMEOUT_SECONDS,
+                    cookie=args.luma_cookie,
+                )
+            if source == "luma_tech":
+                events_data = fetch_luma_tech_events(
+                    slug=args.slug,
+                    latitude=LUMA_SF_LATITUDE,
+                    longitude=LUMA_SF_LONGITUDE,
+                    timeout=REQUEST_TIMEOUT_SECONDS,
+                    cookie=args.luma_cookie,
+                )
+                state["tech_major_raw"] = fetch_luma_category_page_data(
+                    page_url=LUMA_TECH_URL,
+                    timeout=REQUEST_TIMEOUT_SECONDS,
+                    cookie=args.luma_cookie,
+                )
+                return events_data
+            if source == "luma_tech_major":
+                return fetch_luma_category_page_data(
+                    page_url=args.category_page_url,
+                    timeout=REQUEST_TIMEOUT_SECONDS,
+                    cookie=args.luma_cookie,
+                )
+            if source == "luma_ai":
+                events_data = fetch_luma_ai_events(
+                    slug=LUMA_AI_SLUG,
+                    latitude=LUMA_SF_LATITUDE,
+                    longitude=LUMA_SF_LONGITUDE,
+                    timeout=REQUEST_TIMEOUT_SECONDS,
+                    cookie=args.luma_cookie,
+                )
+                state["ai_major_raw"] = fetch_luma_category_page_data(
+                    page_url=LUMA_AI_URL,
+                    timeout=REQUEST_TIMEOUT_SECONDS,
+                    cookie=args.luma_cookie,
+                )
+                return events_data
+            if source == "stanford":
+                return fetch_stanford_events(timeout=REQUEST_TIMEOUT_SECONDS)
+            if source == "stanford_mlsys":
+                return fetch_page_markdown_with_firecrawl(
+                    url=STANFORD_MLSYS_URL, timeout=REQUEST_TIMEOUT_SECONDS
+                )
+            if source == "stanford_hai":
+                return fetch_page_markdown_with_firecrawl(
+                    url=STANFORD_HAI_EVENTS_URL, timeout=REQUEST_TIMEOUT_SECONDS
+                )
+            if source == "partiful":
+                return fetch_partiful_discoverable_events(
+                    timeout=REQUEST_TIMEOUT_SECONDS,
+                )
+            if args.raw:
+                return fetch_cerebral_valley_events(
+                    location=args.location, timeout=REQUEST_TIMEOUT_SECONDS
+                )
+            cerebral_url = f"{BASE_URL}?{urlencode({'locations': args.location})}"
+            return fetch_page_markdown_with_firecrawl(
+                url=cerebral_url, timeout=REQUEST_TIMEOUT_SECONDS
+            )
+
+        try:
+            data = run_with_spinner(source, fetch_for_source, enabled=not args.verbose)
+        except RuntimeError as exc:
+            print(f"[ERR] {source}: {exc}")
+            if args.source != "all":
+                raise SystemExit(1)
+            continue
+
+        if args.raw:
+            if source == "luma_tech":
+                output_payload = {
+                    "major_raw": state["tech_major_raw"] if state["tech_major_raw"] is not None else {},
+                    "events_raw": data,
+                }
+            elif source == "luma_ai":
+                output_payload = {
+                    "major_raw": state["ai_major_raw"] if state["ai_major_raw"] is not None else {},
+                    "events_raw": data,
+                }
+            else:
+                output_payload = data
+        else:
+            if source == "luma_me":
+                output_payload = extract_luma_me_page_events(data)
+            elif source == "luma_sf":
+                output_payload = extract_luma_sf_events(data)
+            elif source == "luma_genai_sf":
+                output_payload = extract_luma_genai_sf_events(data)
+            elif source == "luma_tech":
+                output_payload = extract_luma_tech_dataset(
+                    events_raw=data,
+                    major_raw=state["tech_major_raw"] if state["tech_major_raw"] is not None else {},
+                )
+            elif source == "luma_ai":
+                output_payload = extract_luma_ai_dataset(
+                    events_raw=data,
+                    major_raw=state["ai_major_raw"] if state["ai_major_raw"] is not None else {},
+                )
+            elif source == "stanford":
+                output_payload = extract_stanford_events(data)
+            elif source in ("stanford_mlsys", "stanford_hai"):
+                output_payload = data
+            elif source == "partiful":
+                output_payload = extract_partiful_events(data) if isinstance(data, dict) else []
+            elif source == "luma_tech_major":
+                output_payload = extract_luma_major_events_from_category_data(data)
+            elif source == "cv" and isinstance(data, str):
+                output_payload = data
+            else:
+                output_payload = extract_events(data)
+
+        saved_path = save_cli_output(source, output_payload, raw=args.raw)
+        if args.verbose:
+            if isinstance(output_payload, str):
+                print(output_payload)
+            else:
+                print(json.dumps(output_payload, indent=2, ensure_ascii=True))
+        if saved_path is None:
+            print(f"[OK ] {source}: raw mode (not saved)")
+        else:
+            print(f"[OK ] {source}: {saved_path}")
+        if args.verbose:
+            print("")
