@@ -1,0 +1,60 @@
+{
+  "events": [
+    {
+      "title": "OpenEnv Hackathon",
+      "date": "Mar 7, 2026",
+      "location": "Shack15, San Francisco, CA",
+      "url": "https://cerebralvalley.ai/e/openenv-hackathon-sf",
+      "description": "The OpenEnv Hackathon will challenge participants with 10 tracks to build RL environments and enhance base model performance, backed by top-tier judges and mentors from Meta, Hugging Face, UC Berkeley, and leading AI organizations, competing for a $100K prize pool."
+    },
+    {
+      "title": "PyTorch Helion Hackathon",
+      "date": "Mar 14, 2026",
+      "location": "San Francisco, CA",
+      "url": "https://cerebralvalley.ai/e/helion-hackathon",
+      "description": "Developers, researchers, and ML engineers will explore cutting-edge GPU kernel development with Helion, PyTorch’s Python-native authoring tool that greatly simplifies high-performance ML kernel creation, alongside a sneak peek at NVIDIA’s CompileIQ for optimized code generation, supported by expert mentorship and hands-on workshops."
+    },
+    {
+      "title": "Nebius.Build SF",
+      "date": "Mar 15, 2026",
+      "location": "San Francisco, CA",
+      "url": "https://cerebralvalley.ai/e/nebius-build-sf?utm_source=cv-events-featured&utm_medium=cerebralvalley&_bhlid=744877fca55fbfa1c1150146dceac28a10958db8&tab=guest-list",
+      "description": "Engineers specializing in autonomous systems and high-performance inference will dive into hands-on sessions optimizing inference workloads and sim-to-real robotics builds, culminating in a hackathon judged by experts with prizes on the line. Mentors with deep technical know-how will be on hand to turbocharge team projects before GTC week."
+    },
+    {
+      "title": "AI+ Renᴬᴵssance Conference",
+      "date": "Mar 15, 2026",
+      "location": "San Francisco, CA",
+      "url": "https://luma.com/renaissance26?utm_source=cv-events-featured&utm_medium=cerebralvalley",
+      "description": "Renaissance 2026 will gather 40 AI pioneers, including founders, researchers, and engineers, alongside 20+ top startups and 2,000 industry professionals to dive into breakthroughs in Multimodal Intelligence, AI Agents, Infrastructure, and Robotics."
+    },
+    {
+      "title": "ZeroClick Dinner for AI Builders & Operators",
+      "date": "Mar 24, 2026",
+      "location": "Waterbar Restaurant, San Francisco, CA",
+      "url": "https://luma.com/zeroclick-sf?utm_source=cv-events-featured&utm_medium=cerebralvalley",
+      "description": "Leaders shaping agentic AI, including founders, C-suite executives, and product and growth heads, will explore monetization strategies and developer engagement through ZeroClick’s AI-native ad platform during an intimate evening of insightful conversations and dining."
+    },
+    {
+      "title": "The Agent Toolkit — OpenClaw Hack Day",
+      "date": "Mar 25, 2026",
+      "location": "AWS Builder Loft, San Francisco, CA",
+      "url": "https://luma.com/openclaw-hack-day-mar25-2026?utm_source=cv-events&utm_medium=cerebralvalley",
+      "description": "A full-day sprint led by AI and development pros will have developers build and ship real, publishable OpenClaw skills integrating any API, contributing to one of the fastest-growing local AI agent ecosystems with over 160K GitHub stars."
+    },
+    {
+      "title": "AI Healthcare Conference",
+      "date": "Mar 26, 2026",
+      "location": "The Stanford Faculty Club, Stanford, CA",
+      "url": "https://aihealthcareconference.com/?utm_source=cv-events&utm_medium=cerebralvalley",
+      "description": "T.H.I.N.K. 2026 will gather leading clinicians, technologists, and entrepreneurs to explore AI-driven innovations transforming personalized care and population health, aiming to create smarter, more equitable healthcare systems."
+    },
+    {
+      "title": "Domain2Demo Hackathon",
+      "date": "Apr 25, 2026",
+      "location": "Dogpatch Studios, San Francisco, CA",
+      "url": "https://luma.com/algl8oln?utm_source=cv-events&utm_medium=cerebralvalley",
+      "description": "Domain2Demo will bring together developers, AI experts, and digital real estate investors for a dynamic hackathon and summit where teams draft premium domains to build AI-driven products, enjoy workshops on Web3 and digital assets, and compete for cash prizes, all supported by top industry mentors and exclusive tech partners."
+    }
+  ]
+}
