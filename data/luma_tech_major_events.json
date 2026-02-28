@@ -1,0 +1,110 @@
+[
+  {
+    "calendar_api_id": "cal-1FU99e3GLVul7N6",
+    "calendar_name": "Venture Week Miami",
+    "calendar_slug": "venture-week-miami",
+    "calendar_url": "https://luma.com/venture-week-miami",
+    "event_count": 1,
+    "subscriber_count": 100,
+    "start_at": "2026-02-24T12:00:00.000Z",
+    "end_at": "2026-02-28T12:00:00.000Z",
+    "geo_city": "Miami",
+    "geo_country": "United States"
+  },
+  {
+    "calendar_api_id": "cal-OznqfQ8nxVhwnND",
+    "calendar_name": "MWC Barcelona",
+    "calendar_slug": "mwc-barcelona",
+    "calendar_url": "https://luma.com/mwc-barcelona",
+    "event_count": 27,
+    "subscriber_count": 60,
+    "start_at": "2026-03-02T21:00:00.000Z",
+    "end_at": "2026-03-05T21:00:00.000Z",
+    "geo_city": "Barcelona",
+    "geo_country": "Spain"
+  },
+  {
+    "calendar_api_id": "cal-aziDuQohcASp3Vh",
+    "calendar_name": "GDC",
+    "calendar_slug": "gdc",
+    "calendar_url": "https://luma.com/gdc",
+    "event_count": 26,
+    "subscriber_count": 517,
+    "start_at": "2026-03-09T17:00:00.000Z",
+    "end_at": "2026-03-13T17:00:00.000Z",
+    "geo_city": "San Francisco",
+    "geo_country": "United States"
+  },
+  {
+    "calendar_api_id": "cal-oZPomczQyGywVv2",
+    "calendar_name": "SXSW",
+    "calendar_slug": "sxsw",
+    "calendar_url": "https://luma.com/sxsw",
+    "event_count": 71,
+    "subscriber_count": 1483,
+    "start_at": "2026-03-12T17:00:00.000Z",
+    "end_at": "2026-03-18T17:00:00.000Z",
+    "geo_city": "Austin",
+    "geo_country": "United States"
+  },
+  {
+    "calendar_api_id": "cal-wYWtI2EHMWycNC1",
+    "calendar_name": "NVIDIA GTC",
+    "calendar_slug": "nvidia-gtc",
+    "calendar_url": "https://luma.com/nvidia-gtc",
+    "event_count": 18,
+    "subscriber_count": 348,
+    "start_at": "2026-03-16T21:00:00.000Z",
+    "end_at": "2026-03-19T21:00:00.000Z",
+    "geo_city": "San Jose",
+    "geo_country": "United States"
+  },
+  {
+    "calendar_api_id": "cal-wGrpOVjtTtgCtQT",
+    "calendar_name": "RSA Conference (RSAC)",
+    "calendar_slug": "rsa-conference",
+    "calendar_url": "https://luma.com/rsa-conference",
+    "event_count": 24,
+    "subscriber_count": 280,
+    "start_at": "2026-03-23T17:00:00.000Z",
+    "end_at": "2026-03-26T17:00:00.000Z",
+    "geo_city": "San Francisco",
+    "geo_country": "United States"
+  },
+  {
+    "calendar_api_id": "cal-Byhuy8VcnWMbGWA",
+    "calendar_name": "NY Tech Week",
+    "calendar_slug": "nytw",
+    "calendar_url": "https://luma.com/nytw",
+    "event_count": 0,
+    "subscriber_count": 3115,
+    "start_at": "2026-06-01T18:00:00.000Z",
+    "end_at": "2026-06-07T18:00:00.000Z",
+    "geo_city": "New York",
+    "geo_country": "United States"
+  },
+  {
+    "calendar_api_id": "cal-0YQVV3JCRsNVqWK",
+    "calendar_name": "Black Hat USA",
+    "calendar_slug": "black-hat-usa",
+    "calendar_url": "https://luma.com/black-hat-usa",
+    "event_count": 0,
+    "subscriber_count": 236,
+    "start_at": "2026-08-01T16:00:00.000Z",
+    "end_at": "2026-08-06T16:00:00.000Z",
+    "geo_city": "Las Vegas",
+    "geo_country": "United States"
+  },
+  {
+    "calendar_api_id": "cal-YHIxta6n20yVTbQ",
+    "calendar_name": "Austin Tech Week",
+    "calendar_slug": "austin-tech-week",
+    "calendar_url": "https://luma.com/austin-tech-week",
+    "event_count": 2,
+    "subscriber_count": 118,
+    "start_at": "2026-10-26T17:00:00.000Z",
+    "end_at": "2026-10-30T17:00:00.000Z",
+    "geo_city": "Austin",
+    "geo_country": "United States"
+  }
+]

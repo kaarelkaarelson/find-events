@@ -57,34 +57,6 @@
       "description": "Leaders shaping agentic AI, including founders, C-suite executives, and product and growth heads, will explore monetization strategies and developer engagement through ZeroClick\u2019s AI-native ad platform during an intimate evening of insightful conversations and dining."
     },
     {
-      "title": "World Labs Hack \\[01\\]: Spatial Intelligence",
-      "date": "Feb27",
-      "location": "San Francisco, CA",
-      "url": "https://luma.com/39h28wef?utm_source=cv-events&utm_medium=cerebralvalley",
-      "description": "World Labs will host a cutting-edge hackathon featuring founder Fei-Fei Li and key engineers, inviting innovators to build with Marble, their generative 3D world model API, competing for cash and API credit prizes."
-    },
-    {
-      "title": "InstaLILY AI Office Opening Party \u2014 Co-hosted with Google DeepMind",
-      "date": "Feb27",
-      "location": "San Francisco, CA",
-      "url": "https://luma.com/sy1blojc?utm_source=cv-events&utm_medium=cerebralvalley",
-      "description": "InstaLILY AI will celebrate the launch of its new office with Google DeepMind, bringing together top AI professionals for a networking evening ahead of an exhilarating upcoming hackathon."
-    },
-    {
-      "title": "Mistral Worldwide Hackathon - San Francisco edition",
-      "date": "Feb28",
-      "location": "San Francisco, CA",
-      "url": "https://luma.com/mistralhack-sanfrancisco?utm_source=cv-events&utm_medium=cerebralvalley",
-      "description": "The Mistral Worldwide Hackathon will gather over 1,000 top AI engineers across seven global cities, including San Francisco, for an intense 2-day overnight coding marathon backed by industry leaders like NVIDIA, AWS, and Hugging Face. Participants, ranging from solo coders to small teams, will compete for substantial cash prizes, tech credits, and exclusive opportunities such as interviews for the Supercell AI Innovation Lab."
-    },
-    {
-      "title": "bioArena Hackathon: In Silico to In Vitro",
-      "date": "Feb28",
-      "location": "San Francisco, CA",
-      "url": "https://luma.com/a6t92ohv?utm_source=cv-events&utm_medium=cerebralvalley",
-      "description": "A second agentic bio hackathon will challenge bench scientists, computational biologists, and engineers to design protein binders targeting TREM2, with top computational candidates undergoing real wet-lab validation and scoring based on experimental binding performance."
-    },
-    {
       "title": "OceanTech Hackathon",
       "date": "Feb28",
       "location": "San Francisco, CA",
@@ -104,6 +76,20 @@
       "location": "San Francisco, CA",
       "url": "https://luma.com/lw45p5sw?utm_source=cv-events&utm_medium=cerebralvalley",
       "description": "A hands-on hackathon hosted by InstaLILY AI and Google DeepMind will gather experienced engineers with a proven track record of shipping production code to design and deploy edge native systems, with on-the-spot job offers for winners judged by founding engineers and AI experts from top universities."
+    },
+    {
+      "title": "Mistral Worldwide Hackathon - San Francisco edition",
+      "date": "Feb28",
+      "location": "San Francisco, CA",
+      "url": "https://luma.com/mistralhack-sanfrancisco?utm_source=cv-events&utm_medium=cerebralvalley",
+      "description": "The Mistral Worldwide Hackathon will gather over 1,000 top AI engineers across seven global cities, including San Francisco, for an intense 2-day overnight coding marathon backed by industry leaders like NVIDIA, AWS, and Hugging Face. Participants, ranging from solo coders to small teams, will compete for substantial cash prizes, tech credits, and exclusive opportunities such as interviews for the Supercell AI Innovation Lab."
+    },
+    {
+      "title": "bioArena Hackathon: In Silico to In Vitro",
+      "date": "Feb28",
+      "location": "San Francisco, CA",
+      "url": "https://luma.com/a6t92ohv?utm_source=cv-events&utm_medium=cerebralvalley",
+      "description": "A second agentic bio hackathon will challenge bench scientists, computational biologists, and engineers to design protein binders targeting TREM2, with top computational candidates undergoing real wet-lab validation and scoring based on experimental binding performance."
     },
     {
       "title": "AI Youth Hackathon with Lovable - \ud83e\udde0 The AI Collective Tri-Valley Chapter",
@@ -239,6 +225,13 @@
       "description": "The AI Collective and Innovate Bay will highlight women founders, VCs, and leaders shaping AI's future through a panel on turning ideas into impactful products, ethical AI, and growth strategies, followed by a showcase of women-led AI startups."
     },
     {
+      "title": "AI Engineers: March w/ AWS, ThoughtSpot & Purple AI",
+      "date": "Mar4",
+      "location": "San Francisco, CA",
+      "url": "https://luma.com/uwtpwvj2?utm_source=cv-events&utm_medium=cerebralvalley",
+      "description": "The March San Francisco AI Engineers Tech Talk will showcase expert insights from leaders like a ThoughtSpot VP and AWS specialist, diving into real-world AI engineering challenges and solutions among an audience of seasoned developers, data scientists, and AI founders. This event will offer a rare chance to gain deep technical knowledge and network with top AI professionals in a focused, no-fluff setting."
+    },
+    {
       "title": "AI Engineers: March",
       "date": "Mar4",
       "location": "San Francisco, CA",
@@ -251,13 +244,6 @@
       "location": "San Francisco, CA",
       "url": "https://luma.com/FinxSnowflake?utm_source=cv-events&utm_medium=cerebralvalley",
       "description": "Fin and Snowflake will dive into how agentic AI is evolving from pilots to full enterprise integration, highlighting key factors like data reliability, trust, and ROI. Industry leaders like Intercom\u2019s COO and Snowflake\u2019s AI VP will share expert insights on when to build versus buy AI solutions and the shifting demands between customer-facing and internal applications."
-    },
-    {
-      "title": "AI Engineers: March w/ AWS, ThoughtSpot & Purple AI",
-      "date": "Mar4",
-      "location": "San Francisco, CA",
-      "url": "https://luma.com/uwtpwvj2?utm_source=cv-events&utm_medium=cerebralvalley",
-      "description": "The March San Francisco AI Engineers Tech Talk will showcase expert insights from leaders like a ThoughtSpot VP and AWS specialist, diving into real-world AI engineering challenges and solutions among an audience of seasoned developers, data scientists, and AI founders. This event will offer a rare chance to gain deep technical knowledge and network with top AI professionals in a focused, no-fluff setting."
     },
     {
       "title": "Startup Pitch & Networking in San Francisco",
@@ -295,18 +281,18 @@
       "description": "Elad Gil, a seasoned entrepreneur and investor behind over 50 unicorn startups including Airbnb and OpenAI, will lead a fireside chat sharing insights on scaling high-growth tech companies and the future of AI investment."
     },
     {
-      "title": "Storytelling that Moves Markets: Women Healthtech & AI Founders LIVE!",
-      "date": "Mar5",
-      "location": "San Francisco, CA",
-      "url": "https://luma.com/storytelling-that-moves-markets-healthte?utm_source=cv-events&utm_medium=cerebralvalley",
-      "description": "Founders, investors, and operators will experience a live storytelling event focusing on crafting narratives that build trust and unlock capital, with insights tailored for Healthtech and AI industries. Attendees will gain practical frameworks and real-world examples to enhance their fundraising, customer pitches, and team alignment."
-    },
-    {
       "title": "Collective Intelligence ep.2 ~ Live (w/ The AI Collective)",
       "date": "Mar5",
       "location": "San Francisco, CA",
       "url": "https://luma.com/irl_podcast-2?utm_source=cv-events&utm_medium=cerebralvalley",
       "description": "Episode 2 of the Collective Intelligence podcast will feature live, unscripted discussions with top AI leaders like Stefan Weitz, CEO of HumanX, Google\u2019s Web AI Lead Jason Mayes, and W3C protocol creator Alex Nahas, revealing cutting-edge insights on AI deployment, on-device models, and web AI interactions."
+    },
+    {
+      "title": "Storytelling that Moves Markets: Women Healthtech & AI Founders LIVE!",
+      "date": "Mar5",
+      "location": "San Francisco, CA",
+      "url": "https://luma.com/storytelling-that-moves-markets-healthte?utm_source=cv-events&utm_medium=cerebralvalley",
+      "description": "Founders, investors, and operators will experience a live storytelling event focusing on crafting narratives that build trust and unlock capital, with insights tailored for Healthtech and AI industries. Attendees will gain practical frameworks and real-world examples to enhance their fundraising, customer pitches, and team alignment."
     },
     {
       "title": "Vercel Demo Night: Designing with AI",
@@ -316,11 +302,11 @@
       "description": "Design leaders from Atlassian, GitHub, Browserbase, and Yutori will showcase cutting-edge AI-driven design tools and workflows, offering dynamic demos that highlight the future of creative software development."
     },
     {
-      "title": "Deploy to Reality: A VR Room Experience & Happy Hour (hosted by Baseten & Mixedbread)",
+      "title": "Scaling AI the Cloud Native Way",
       "date": "Mar5",
       "location": "San Francisco, CA",
-      "url": "https://luma.com/3snjfakm?utm_source=cv-events&utm_medium=cerebralvalley",
-      "description": "Engineers and AI leaders will dive into an immersive VR experience hosted by Baseten, exploring fast inference and collaborative gameplay while networking over drinks and bites in a casual, tech-forward setting. Baseten, known for its ultra-fast production inference platform, teams up with Mixedbread, a pioneer in large-scale multimodal search, making this a hotspot for innovation and real-world AI expertise."
+      "url": "https://luma.com/k96i3afj?utm_source=cv-events&utm_medium=cerebralvalley",
+      "description": "Open source experts and cloud infrastructure pros will dig into cutting-edge AI, GenAI app data platforms, zero-CVE Kubernetes automation, and unified hybrid private cloud architecture, featuring hands-on demos and enterprise-grade insights from Nutanix, RapidFort, and PingCAP engineers."
     },
     {
       "title": "IWD Build Night with Lovable and AI Snack Club",
@@ -330,11 +316,11 @@
       "description": "An International Women's Day mini hackathon will empower women professionals to build practical AI solutions they wish they had during challenging times, gaining hands-on experience with AI tools and creating projects without any coding required. This event is perfect for those ready to evolve from AI-curious to AI-creators alongside a supportive community led by Monica Abrams, founder of AI Snack Club."
     },
     {
-      "title": "Scaling AI the Cloud Native Way",
+      "title": "Deploy to Reality: A VR Room Experience & Happy Hour (hosted by Baseten & Mixedbread)",
       "date": "Mar5",
       "location": "San Francisco, CA",
-      "url": "https://luma.com/k96i3afj?utm_source=cv-events&utm_medium=cerebralvalley",
-      "description": "Open source experts and cloud infrastructure pros will dig into cutting-edge AI, GenAI app data platforms, zero-CVE Kubernetes automation, and unified hybrid private cloud architecture, featuring hands-on demos and enterprise-grade insights from Nutanix, RapidFort, and PingCAP engineers."
+      "url": "https://luma.com/3snjfakm?utm_source=cv-events&utm_medium=cerebralvalley",
+      "description": "Engineers and AI leaders will dive into an immersive VR experience hosted by Baseten, exploring fast inference and collaborative gameplay while networking over drinks and bites in a casual, tech-forward setting. Baseten, known for its ultra-fast production inference platform, teams up with Mixedbread, a pioneer in large-scale multimodal search, making this a hotspot for innovation and real-world AI expertise."
     },
     {
       "title": "AGI Royale Networking Mixer & Gala (FAANG++ & Ivy/Stanford/UC++)",
@@ -470,18 +456,18 @@
       "description": "The AINative GDC 2026 Hackathon will bring together seasoned developers, designers, and founders to create groundbreaking AI-native games, using generative AI for everything from world-building to gameplay and infrastructure. Participants with expertise in AIKit, AINative APIs, and related tech will prototype and launch innovative games over two intense days."
     },
     {
-      "title": "the residency - demo day",
-      "date": "Mar13",
-      "location": "San Francisco, CA",
-      "url": "https://luma.com/rt39ip3d?utm_source=cv-events&utm_medium=cerebralvalley",
-      "description": "This upcoming demo day will spotlight a global network of elite founders driving $3 billion in startup value, showcasing cutting-edge innovations across deep tech, biotech, and software to investors seeking the next unicorn. Attendees will experience a high-caliber lineup of presentations from founders celebrated for their Silicon Valley expertise and impactful startup ecosystems."
-    },
-    {
       "title": "AI Builders Play Pickleball (Browserbase x DigitalOcean)",
       "date": "Mar13",
       "location": "San Francisco, CA",
       "url": "https://luma.com/rfe3f44l?utm_source=cv-events&utm_medium=cerebralvalley",
       "description": "Browserbase and DigitalOcean will host a laid-back evening of drinks and lively chats, perfect for unwinding before Nvidia GTC."
+    },
+    {
+      "title": "the residency - demo day",
+      "date": "Mar13",
+      "location": "San Francisco, CA",
+      "url": "https://luma.com/rt39ip3d?utm_source=cv-events&utm_medium=cerebralvalley",
+      "description": "This upcoming demo day will spotlight a global network of elite founders driving $3 billion in startup value, showcasing cutting-edge innovations across deep tech, biotech, and software to investors seeking the next unicorn. Attendees will experience a high-caliber lineup of presentations from founders celebrated for their Silicon Valley expertise and impactful startup ecosystems."
     },
     {
       "title": "No-AI-Hype Developer Security and Optimization Meetup on Sycophancy",
@@ -561,13 +547,6 @@
       "description": "An exclusive evening for AI founders and builders pushing the boundaries of training and inference features premium networking with experts from leading GPU service providers and AI infrastructure innovators delivering cutting-edge compute solutions."
     },
     {
-      "title": "Inference Happy Hour for AI Founders & Builders Hosted by Massed Compute, Rapt AI, Amaara, Qwerky AI, & Modular.",
-      "date": "Mar18",
-      "location": "San Jose, CA",
-      "url": "https://luma.com/drfpq7kh?utm_source=cv-events&utm_medium=cerebralvalley",
-      "description": "AI founders and builders will explore groundbreaking advancements in inference workload performance, efficiency, and scalability, featuring expert insights from NVIDIA Cloud Partners and innovators optimizing GPU usage and large language model speed."
-    },
-    {
       "title": "AINative BarCamp @ GTC 2026",
       "date": "Mar18",
       "location": "San Jose, CA",
@@ -575,11 +554,11 @@
       "description": "At GTC 2026, Kwanza Hall, former U.S. Congressman and Atlanta City Councilman, will host an informal evening BarCamp focusing on AI-native systems, bridging AI infrastructure with economic and civic leadership in a no-stage, no-panels setting for builders and innovators."
     },
     {
-      "title": "SF PITCH NIGHT \\#17 (w/ The AI Collective)",
+      "title": "Inference Happy Hour for AI Founders & Builders Hosted by Massed Compute, Rapt AI, Amaara, Qwerky AI, & Modular.",
       "date": "Mar18",
-      "location": "San Francisco, CA",
-      "url": "https://luma.com/sfp?utm_source=cv-events&utm_medium=cerebralvalley",
-      "description": "The upcoming SF Pitch Night will spotlight cutting-edge AI and tech innovations with top founders presenting sharp demos of new AI models and agents, promising a high-energy showcase of breakthrough builds."
+      "location": "San Jose, CA",
+      "url": "https://luma.com/drfpq7kh?utm_source=cv-events&utm_medium=cerebralvalley",
+      "description": "AI founders and builders will explore groundbreaking advancements in inference workload performance, efficiency, and scalability, featuring expert insights from NVIDIA Cloud Partners and innovators optimizing GPU usage and large language model speed."
     },
     {
       "title": "The Human Signal Social",
@@ -587,6 +566,13 @@
       "location": "San Francisco, CA",
       "url": "https://luma.com/giu8qvyj?utm_source=cv-events&utm_medium=cerebralvalley",
       "description": "Appen\u2019s Human Signal Social will bring together AI researchers, technical leaders, and product teams for a focused evening of deep conversations and networking, enhanced by crafted cocktails and a thoughtfully curated guest list. This gathering promises meaningful interactions among seasoned AI professionals and industry innovators."
+    },
+    {
+      "title": "SF PITCH NIGHT \\#17 (w/ The AI Collective)",
+      "date": "Mar18",
+      "location": "San Francisco, CA",
+      "url": "https://luma.com/sfp?utm_source=cv-events&utm_medium=cerebralvalley",
+      "description": "The upcoming SF Pitch Night will spotlight cutting-edge AI and tech innovations with top founders presenting sharp demos of new AI models and agents, promising a high-energy showcase of breakthrough builds."
     },
     {
       "title": "Llama Lounge 24: at Google with Deepmind",
@@ -755,6 +741,13 @@
       "location": "San Francisco, CA",
       "url": "https://showerhacks.org/?utm_source=cv-events&utm_medium=cerebralvalley",
       "description": "Showerhacks will showcase engineers pushing boundaries with provocative AI projects, from unconventional chatbots to bold applications in health, law, and dating, judged solely on their edge and originality."
+    },
+    {
+      "title": "Sign In",
+      "date": "Oct3",
+      "location": "",
+      "url": "https://cerebralvalley.ai/auth/login",
+      "description": ""
     }
   ]
 }
