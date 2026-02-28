@@ -204,6 +204,7 @@ def build_prompt(sources: list[tuple[str, str]]) -> str:
         "- Return weekly picks for the next 4 weeks.\n"
         "- Select exactly 5 high-signal events per week (total 20).\n"
         "- Also return exactly 3 overall can't-miss picks across the full 4-week window.\n"
+        "- Within each week, rank events by signal quality (best to worst), not by date/time.\n"
         "- Maximize quality of people, network upside, and relevance to tech/AI/startups.\n"
         "- Penalize low-signal, generic, or poorly-specified events.\n"
         "- Include concise reasoning for each selected event.\n"
@@ -230,6 +231,7 @@ def build_prompt(sources: list[tuple[str, str]]) -> str:
         '      "week_end": "YYYY-MM-DD",\n'
         '      "events": [\n'
         "        {\n"
+        '          "rank_in_week": 1,\n'
         '          "title": "string",\n'
         '          "date": "start ISO date/time string or best available",\n'
         '          "end_date": "end ISO date/time string if known, else empty string",\n'
@@ -244,6 +246,7 @@ def build_prompt(sources: list[tuple[str, str]]) -> str:
         "- Include exactly 4 week objects.\n"
         "- Include exactly 5 events per week object.\n"
         "- Include exactly 3 objects in top_3_picks.\n"
+        "- For each week, set rank_in_week as unique integers 1..5 (1 is strongest event that week).\n"
         "\n"
         "Source data follows.\n"
     )
@@ -311,6 +314,7 @@ def call_gemini(prompt: str, model: str, max_output_tokens: int = DEFAULT_MAX_OU
                                     "items": {
                                         "type": "OBJECT",
                                         "properties": {
+                                            "rank_in_week": {"type": "INTEGER"},
                                             "title": {"type": "STRING"},
                                             "date": {"type": "STRING"},
                                             "end_date": {"type": "STRING"},
@@ -318,7 +322,14 @@ def call_gemini(prompt: str, model: str, max_output_tokens: int = DEFAULT_MAX_OU
                                             "reason": {"type": "STRING"},
                                             "link": {"type": "STRING"},
                                         },
-                                        "required": ["title", "date", "location", "reason", "link"],
+                                        "required": [
+                                            "rank_in_week",
+                                            "title",
+                                            "date",
+                                            "location",
+                                            "reason",
+                                            "link",
+                                        ],
                                     },
                                 },
                             },
@@ -475,6 +486,10 @@ def render_weekly_readme(structured: dict) -> str:
         events = week.get("events", [])
         if not isinstance(events, list):
             events = []
+        else:
+            ranked = [e for e in events if isinstance(e, dict) and isinstance(e.get("rank_in_week"), int)]
+            if len(ranked) == len(events):
+                events = sorted(events, key=lambda e: int(e.get("rank_in_week", 999)))
 
         for idx, event in enumerate(events, start=1):
             if not isinstance(event, dict):

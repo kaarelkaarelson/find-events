@@ -10,6 +10,7 @@ import unicodedata
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse, urlunparse
 
 from zoneinfo import ZoneInfo
 
@@ -18,6 +19,67 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 DATA_DIR = PROJECT_ROOT / "data"
 RUNS_DIR = DATA_DIR / "evaluate_runs"
 LOCAL_PREVIEW_README = DATA_DIR / "awesome_events_README.md"
+
+
+def normalize_event_url(url: str) -> str:
+    raw = (url or "").strip()
+    if not raw:
+        return ""
+    try:
+        parsed = urlparse(raw)
+        # Strip query/fragment for stable matching across tracking params.
+        normalized = urlunparse((parsed.scheme, parsed.netloc, parsed.path.rstrip("/"), "", "", ""))
+        return normalized.lower()
+    except Exception:
+        return raw.lower()
+
+
+def _extract_event_like_nodes(node: Any, out: list[dict[str, Any]]) -> None:
+    if isinstance(node, dict):
+        has_url = isinstance(node.get("url"), str) and node.get("url")
+        has_time = any(isinstance(node.get(k), str) and node.get(k) for k in ("start_at", "end_at", "date", "end_date"))
+        if has_url and has_time:
+            out.append(node)
+        for value in node.values():
+            _extract_event_like_nodes(value, out)
+    elif isinstance(node, list):
+        for item in node:
+            _extract_event_like_nodes(item, out)
+
+
+def load_source_time_overrides() -> dict[str, dict[str, str]]:
+    """Build url->time/location map from raw data sources to correct LLM date drift."""
+    overrides: dict[str, dict[str, str]] = {}
+    if not DATA_DIR.exists():
+        return overrides
+
+    for path in sorted(DATA_DIR.iterdir()):
+        if not path.is_file() or not path.name.endswith(".json"):
+            continue
+        if path.name.startswith("evaluate_") or path.name.startswith("awesome_events_"):
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            continue
+
+        nodes: list[dict[str, Any]] = []
+        _extract_event_like_nodes(payload, nodes)
+        for item in nodes:
+            link = normalize_event_url(str(item.get("url", "")))
+            if not link:
+                continue
+            start = str(item.get("start_at") or item.get("date") or "").strip()
+            end = str(item.get("end_at") or item.get("end_date") or "").strip()
+            loc = str(item.get("location") or "").strip()
+            if not start and not end and not loc:
+                continue
+            overrides[link] = {
+                "date": start,
+                "end_date": end,
+                "location": loc,
+            }
+    return overrides
 
 
 def latest_run_dir() -> Path:
@@ -48,6 +110,7 @@ def latest_valid_weekly_run_dir() -> Path:
 
 
 def render_weekly_readme(structured: dict[str, Any], run_id: str) -> str:
+    time_overrides = load_source_time_overrides()
     top_3_picks = structured.get("top_3_picks", [])
     if not isinstance(top_3_picks, list):
         top_3_picks = []
@@ -84,7 +147,8 @@ def render_weekly_readme(structured: dict[str, Any], run_id: str) -> str:
             iso = raw.replace("Z", "+00:00")
             dt = datetime.fromisoformat(iso)
             if dt.tzinfo is None:
-                dt = dt.replace(tzinfo=timezone.utc)
+                # If timezone is missing, treat source value as local Pacific time.
+                dt = dt.replace(tzinfo=ZoneInfo("America/Los_Angeles"))
             dt_local = dt.astimezone(ZoneInfo("America/Los_Angeles"))
             label = dt_local.strftime("%a, %b %d at %I:%M %p").strip()
             return _clean_leading_zero(label)
@@ -93,34 +157,10 @@ def render_weekly_readme(structured: dict[str, Any], run_id: str) -> str:
 
     def format_when_range(start_value: str, end_value: str) -> str:
         start_raw = (start_value or "").strip()
-        end_raw = (end_value or "").strip()
         if not start_raw:
             return "TBD"
-        if not end_raw:
-            return format_date_human(start_raw)
-        try:
-            s = datetime.fromisoformat(start_raw.replace("Z", "+00:00"))
-            e = datetime.fromisoformat(end_raw.replace("Z", "+00:00"))
-            if s.tzinfo is None:
-                s = s.replace(tzinfo=timezone.utc)
-            if e.tzinfo is None:
-                e = e.replace(tzinfo=timezone.utc)
-            s_local = s.astimezone(ZoneInfo("America/Los_Angeles"))
-            e_local = e.astimezone(ZoneInfo("America/Los_Angeles"))
-
-            # Same local day: show compact range.
-            if s_local.date() == e_local.date():
-                date_part = _clean_leading_zero(s_local.strftime("%a, %b %d"))
-                start_part = _clean_leading_zero(s_local.strftime("%I:%M %p"))
-                end_part = _clean_leading_zero(e_local.strftime("%I:%M %p"))
-                return f"{date_part} at {start_part} -> {end_part}"
-
-            # Different day: show full start/end.
-            start_full = _clean_leading_zero(s_local.strftime("%a, %b %d at %I:%M %p"))
-            end_full = _clean_leading_zero(e_local.strftime("%a, %b %d at %I:%M %p"))
-            return f"{start_full} -> {end_full}"
-        except Exception:
-            return format_date_human(start_raw)
+        # Weekly view keeps only start time for clean scanning.
+        return format_date_human(start_raw)
 
     def format_when_compact(start_value: str) -> str:
         raw = (start_value or "").strip()
@@ -129,9 +169,10 @@ def render_weekly_readme(structured: dict[str, Any], run_id: str) -> str:
         try:
             dt = datetime.fromisoformat(raw.replace("Z", "+00:00"))
             if dt.tzinfo is None:
-                dt = dt.replace(tzinfo=timezone.utc)
+                # If timezone is missing, treat source value as local Pacific time.
+                dt = dt.replace(tzinfo=ZoneInfo("America/Los_Angeles"))
             local = dt.astimezone(ZoneInfo("America/Los_Angeles"))
-            return _clean_leading_zero(local.strftime("%a, %b %d · %I:%M %p"))
+            return _clean_leading_zero(local.strftime("%a, %b %d at %I:%M %p"))
         except Exception:
             return raw
 
@@ -151,12 +192,12 @@ def render_weekly_readme(structured: dict[str, Any], run_id: str) -> str:
     lines: list[str] = []
     lines.append("# Awesome SF Events")
     lines.append("")
-    lines.append("High Signal Weekly Picks for SF Bay Area Builders for March.")
+    lines.append("High Signal Weekly Picks for SF Bay Area Builders.")
     lines.append(f"Updated: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`.")
     lines.append("")
 
     if top_3_picks:
-        lines.append("## Top Picks")
+        lines.append("## Top Picks for March")
         lines.append("")
         for idx, event in enumerate(top_3_picks[:3], start=1):
             if not isinstance(event, dict):
@@ -166,13 +207,21 @@ def render_weekly_readme(structured: dict[str, Any], run_id: str) -> str:
             end_date_value = sanitize_text(str(event.get("end_date", "")))
             location = sanitize_text(str(event.get("location", "")))
             link = sanitize_text(str(event.get("link", "")))
+
+            override = time_overrides.get(normalize_event_url(link), {})
+            if isinstance(override, dict):
+                date_value = sanitize_text(str(override.get("date") or date_value))
+                end_date_value = sanitize_text(str(override.get("end_date") or end_date_value))
+                if override.get("location"):
+                    location = sanitize_text(str(override.get("location")))
+
             when_compact = format_when_compact(date_value)
 
             stars = "⭐" * max(1, 4 - idx)
-            title_text = f"{stars} **{title}** {stars}"
+            title_text = f"{stars} **{title}**"
             if link:
-                lines.append(title_text)
-                lines.append(f"`{when_compact} | {location}` — [Sign up ->]({link})")
+                lines.append(f"{title_text} — **[Sign up ->]({link})**")
+                lines.append(f"`{when_compact} | {location}`")
             else:
                 lines.append(title_text)
                 lines.append(f"`{when_compact} | {location}`")
@@ -193,6 +242,11 @@ def render_weekly_readme(structured: dict[str, Any], run_id: str) -> str:
         events = week.get("events", [])
         if not isinstance(events, list):
             events = []
+        else:
+            # Prefer model-provided weekly signal ranking if available.
+            ranked = [e for e in events if isinstance(e, dict) and isinstance(e.get("rank_in_week"), int)]
+            if len(ranked) == len(events):
+                events = sorted(events, key=lambda e: int(e.get("rank_in_week", 999)))
 
         for idx, event in enumerate(events, start=1):
             if not isinstance(event, dict):
@@ -204,13 +258,22 @@ def render_weekly_readme(structured: dict[str, Any], run_id: str) -> str:
             reason = sanitize_text(str(event.get("reason", "")))
             link = sanitize_text(str(event.get("link", "")))
 
+            override = time_overrides.get(normalize_event_url(link), {})
+            if isinstance(override, dict):
+                date_value = sanitize_text(str(override.get("date") or date_value))
+                end_date_value = sanitize_text(str(override.get("end_date") or end_date_value))
+                if override.get("location"):
+                    location = sanitize_text(str(override.get("location")))
+
+            when_where = f"{format_when_range(date_value, end_date_value)} | {location}"
+
             if link:
-                lines.append(f"{idx}. **[{title}]({link})**")
+                lines.append(f"{idx}. **{title}** — **[Sign up ->]({link})**")
+                lines.append(f"   `{when_where}`")
             else:
                 lines.append(f"{idx}. **{title}**")
-            lines.append(f"   - When: `{format_when_range(date_value, end_date_value)}`")
-            lines.append(f"   - Where: {location}")
-            lines.append(f"   - Why: {reason}")
+                lines.append(f"   `{when_where}`")
+            lines.append(f"   {reason}")
             lines.append("")
 
         lines.append("---")

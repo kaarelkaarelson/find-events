@@ -1,0 +1,238 @@
+{
+  "top_3_picks": [
+    {
+      "title": "Build with Intent: Leading Engineering in the AI Era with Eric Schmidt",
+      "date": "2026-03-10T15:00:00-08:00",
+      "location": "The Battery, San Francisco, CA",
+      "reason": "Extremely high-signal gathering of CTOs and engineering leaders featuring Eric Schmidt; ideal for high-level networking with tech elite.",
+      "link": "https://luma.com/oaf6etsx?utm_source=cv-events-featured&utm_medium=cerebralvalley",
+      "end_date": "2026-03-10T18:00:00-08:00"
+    },
+    {
+      "title": "AI+ Renaissance Conference 2026",
+      "date": "2026-03-15T09:00:00-08:00",
+      "location": "San Francisco, CA",
+      "reason": "Flagship summit with 2,000 professionals and 40 pioneers; the density of smart, ambitious people in AI makes this a top-tier networking opportunity.",
+      "link": "https://luma.com/renaissance26",
+      "end_date": "2026-03-16T18:00:00-08:00"
+    },
+    {
+      "title": "NVIDIA GTC 2026",
+      "date": "2026-03-16T16:00:00Z",
+      "location": "San Jose, CA",
+      "reason": "The most important hardware and AI infrastructure event globally; attracts the world's top AI researchers and founders to the Bay Area.",
+      "link": "https://luma.com/nvidia-gtc",
+      "end_date": "2026-03-19T16:00:00Z"
+    }
+  ],
+  "weeks": [
+    {
+      "week_label": "Week 1",
+      "week_start": "2026-02-28",
+      "week_end": "2026-03-06",
+      "events": [
+        {
+          "rank_in_week": 1,
+          "title": "Mistral Worldwide Hackathon - San Francisco edition",
+          "date": "2026-02-28T09:00:00-08:00",
+          "location": "San Francisco, CA",
+          "reason": "Backed by NVIDIA and Mistral, this attracts 1,000+ top-tier AI engineers for an intense coding marathon.",
+          "link": "https://luma.com/mistralhack-sanfrancisco",
+          "end_date": "2026-03-02T04:00:00-08:00"
+        },
+        {
+          "rank_in_week": 2,
+          "title": "-1 to Elad Gil",
+          "date": "2026-03-05T16:00:00-08:00",
+          "location": "San Francisco, CA",
+          "reason": "Fireside chat with a legendary investor in OpenAI and Airbnb; high concentration of ambitious founders at South Park Commons.",
+          "link": "https://luma.com/eladgilspc",
+          "end_date": "2026-03-05T17:00:00-08:00"
+        },
+        {
+          "rank_in_week": 3,
+          "title": "How AI-native unicorns scale (Replit, Linear, Harvey)",
+          "date": "2026-03-03T18:30:00-08:00",
+          "location": "Industrious, San Francisco, CA",
+          "reason": "Features founders/COOs of top AI companies and Aileen Lee; elite peer group and high-signal scaling insights.",
+          "link": "https://luma.com/3goscvql",
+          "end_date": "2026-03-03T21:00:00-08:00"
+        },
+        {
+          "rank_in_week": 4,
+          "title": "Consumer AI Accelerator Demo Day",
+          "date": "2026-03-03T17:30:00-08:00",
+          "location": "San Francisco, CA",
+          "reason": "32 startups with $50M+ ARR; high concentration of investors from Lightspeed and Microsoft M12.",
+          "link": "https://partiful.com/e/FI2PKEoVqDDPL85Vozgh",
+          "end_date": "2026-03-03T21:00:00-08:00"
+        },
+        {
+          "rank_in_week": 5,
+          "title": "Scrappy AI Founders Play Pickleball",
+          "date": "2026-02-28T11:00:00-08:00",
+          "location": "San Jose, CA",
+          "reason": "Social activity specifically for AI founders; high-signal networking in a relaxed environment.",
+          "link": "https://luma.com/a6tiez9t",
+          "end_date": "2026-02-28T14:00:00-08:00"
+        }
+      ]
+    },
+    {
+      "week_label": "Week 2",
+      "week_start": "2026-03-07",
+      "week_end": "2026-03-13",
+      "events": [
+        {
+          "rank_in_week": 1,
+          "title": "Build with Intent: Leading Engineering in the AI Era with Eric Schmidt",
+          "date": "2026-03-10T15:00:00-08:00",
+          "location": "The Battery, San Francisco, CA",
+          "reason": "Exclusive gathering of technical leaders and CTOs with Eric Schmidt; highest signal event of the week.",
+          "link": "https://luma.com/oaf6etsx",
+          "end_date": "2026-03-10T18:00:00-08:00"
+        },
+        {
+          "rank_in_week": 2,
+          "title": "OpenEnv Hackathon",
+          "date": "2026-03-07T08:00:00-08:00",
+          "location": "Shack15, San Francisco, CA",
+          "reason": "Judges from Meta, Hugging Face, and UC Berkeley; $100K prize pool attracts top-tier technical talent.",
+          "link": "https://cerebralvalley.ai/e/openenv-hackathon-sf",
+          "end_date": "2026-03-07T17:00:00-08:00"
+        },
+        {
+          "rank_in_week": 3,
+          "title": "Py AI Conference",
+          "date": "2026-03-10T09:00:00-08:00",
+          "location": "San Francisco, CA",
+          "reason": "Features Python creator Guido van Rossum and framework creators; essential for technical tech-stack networking.",
+          "link": "https://luma.com/i3cbt3sz",
+          "end_date": "2026-03-10T17:00:00-08:00"
+        },
+        {
+          "rank_in_week": 4,
+          "title": "Daytona Compute Conference",
+          "date": "2026-03-08T17:00:00-08:00",
+          "location": "Chase Center, San Francisco, CA",
+          "reason": "1,500 builders and infrastructure engineers; high density of cloud and AI systems talent.",
+          "link": "https://compute.daytona.io/",
+          "end_date": "2026-03-08T21:00:00-08:00"
+        },
+        {
+          "rank_in_week": 5,
+          "title": "AI Builders Play Pickleball (Browserbase x DigitalOcean)",
+          "date": "2026-03-13T17:00:00-08:00",
+          "location": "San Francisco, CA",
+          "reason": "Pre-GTC social mixer for AI builders; perfect for casual but high-value networking.",
+          "link": "https://luma.com/rfe3f44l",
+          "end_date": "2026-03-13T19:00:00-08:00"
+        }
+      ]
+    },
+    {
+      "week_label": "Week 3",
+      "week_start": "2026-03-14",
+      "week_end": "2026-03-20",
+      "events": [
+        {
+          "rank_in_week": 1,
+          "title": "NVIDIA GTC 2026",
+          "date": "2026-03-16T16:00:00Z",
+          "location": "San Jose, CA",
+          "reason": "The premier AI infrastructure event; essential for anyone in the tech/AI space to network with global leaders.",
+          "link": "https://luma.com/nvidia-gtc",
+          "end_date": "2026-03-19T16:00:00Z"
+        },
+        {
+          "rank_in_week": 2,
+          "title": "AI+ Renaissance Conference 2026",
+          "date": "2026-03-15T09:00:00-08:00",
+          "location": "San Francisco, CA",
+          "reason": "Massive gathering of 2,000 industry professionals and top startups; high network upside.",
+          "link": "https://luma.com/renaissance26",
+          "end_date": "2026-03-16T18:00:00-08:00"
+        },
+        {
+          "rank_in_week": 3,
+          "title": "PyTorch Helion Hackathon",
+          "date": "2026-03-14T09:00:00-08:00",
+          "location": "San Francisco, CA",
+          "reason": "Deep technical focus on GPU kernel development with expert mentorship; attracts elite ML engineers.",
+          "link": "https://cerebralvalley.ai/e/helion-hackathon",
+          "end_date": "2026-03-14T22:00:00-08:00"
+        },
+        {
+          "rank_in_week": 4,
+          "title": "-1 to World Labs with Dr. Fei-Fei Li",
+          "date": "2026-03-18T18:00:00-08:00",
+          "location": "San Francisco, CA",
+          "reason": "Fireside chat with the 'Godmother of AI' at South Park Commons; extremely high-signal technical audience.",
+          "link": "https://luma.com/spc-fei-fei",
+          "end_date": "2026-03-18T19:00:00-08:00"
+        },
+        {
+          "rank_in_week": 5,
+          "title": "Llama Lounge 24 @ Google Deepmind",
+          "date": "2026-03-20T00:00:00-08:00",
+          "location": "Mountain View, CA",
+          "reason": "High-signal AI startup event series hosted at a major AI lab; excellent for meeting founders.",
+          "link": "https://luma.com/llamalounge24",
+          "end_date": "2026-03-20T03:30:00-08:00"
+        }
+      ]
+    },
+    {
+      "week_label": "Week 4",
+      "week_start": "2026-03-21",
+      "week_end": "2026-03-28",
+      "events": [
+        {
+          "rank_in_week": 1,
+          "title": "RSA Conference (RSAC) 2026",
+          "date": "2026-03-23T17:00:00Z",
+          "location": "San Francisco, CA",
+          "reason": "The major global cybersecurity event; attracts thousands of founders and security experts to SF.",
+          "link": "https://luma.com/rsa-conference",
+          "end_date": "2026-03-26T17:00:00Z"
+        },
+        {
+          "rank_in_week": 2,
+          "title": "AI Healthcare Conference at Stanford",
+          "date": "2026-03-26T14:00:00-08:00",
+          "location": "Stanford, CA",
+          "reason": "High-signal intersection of AI and Biotech/Healthcare at a top research institution.",
+          "link": "https://luma.com/amtdrrn1",
+          "end_date": "2026-03-28T02:00:00-08:00"
+        },
+        {
+          "rank_in_week": 3,
+          "title": "Security Founders' Oasis at RSA 2026",
+          "date": "2026-03-25T00:30:00-08:00",
+          "location": "San Francisco, CA",
+          "reason": "Curated gathering specifically for security founders during RSA; high-signal networking.",
+          "link": "https://luma.com/w10psfmj",
+          "end_date": "2026-03-25T04:00:00-08:00"
+        },
+        {
+          "rank_in_week": 4,
+          "title": "ZeroClick Dinner for AI Builders & Operators",
+          "date": "2026-03-24T18:00:00-08:00",
+          "location": "Waterbar Restaurant, San Francisco, CA",
+          "reason": "Intimate dinner with C-suite executives and founders shaping agentic AI; high-quality peer group.",
+          "link": "https://luma.com/zeroclick-sf",
+          "end_date": "2026-03-24T21:00:00-08:00"
+        },
+        {
+          "rank_in_week": 5,
+          "title": "Yoga SF @ 222 Second Street",
+          "date": "2026-03-26T23:30:00-08:00",
+          "location": "San Francisco, CA",
+          "reason": "Social/wellness activity in a tech-centric location; good for low-pressure networking with local tech workers.",
+          "link": "https://luma.com/wqvb13a0",
+          "end_date": "2026-03-27T00:30:00-08:00"
+        }
+      ]
+    }
+  ]
+}
