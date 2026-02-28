@@ -1,14 +1,14 @@
 # Awesome SF Events
 
 High Signal Weekly Picks for SF Bay Area Builders for March.
-Updated: `2026-02-28 02:16:19`.
+Updated: `2026-02-28 02:18:13`.
 
 ## Top Picks
 
 ⭐⭐⭐ **Build with Intent: Leading Engineering in the AI Era with Eric Schmidt** ⭐⭐⭐
 `Tue, Mar 10 · 8:00 AM | The Battery, San Francisco, CA` — [Sign up ->](https://luma.com/oaf6etsx?utm_source=cv-events-featured&utm_medium=cerebralvalley)
 
-⭐⭐ **AI+ Renာဵssance Conference 2026** ⭐⭐
+⭐⭐ **AI+ Renaissance Conference 2026** ⭐⭐
 `Sun, Mar 15 · 2:00 AM | San Francisco, CA` — [Sign up ->](https://luma.com/renaissance26?utm_source=cv-events-featured&utm_medium=cerebralvalley)
 
 ⭐ **NVIDIA GTC 2026 Happy Hour: AI Builders Party** ⭐
@@ -116,7 +116,7 @@ Updated: `2026-02-28 02:16:19`.
    - Where: Waterbar Restaurant, San Francisco, CA
    - Why: Intimate evening with founders and C-suite leaders focused on agentic AI monetization.
 
-3. **[The Agent Toolkit — OpenClaw Hack Day](https://luma.com/openclaw-hack-day-mar25-2026)**
+3. **[The Agent Toolkit OpenClaw Hack Day](https://luma.com/openclaw-hack-day-mar25-2026)**
    - When: `Wed, Mar 25 at 2:30 AM -> 11:30 AM`
    - Where: AWS Builder Loft, San Francisco, CA
    - Why: Hands-on sprint for one of the fastest-growing AI agent ecosystems. High builder density.

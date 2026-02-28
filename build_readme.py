@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import unicodedata
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -61,6 +62,13 @@ def render_weekly_readme(structured: dict[str, Any], run_id: str) -> str:
         text = re.sub(r"\s*\{#[^}]+\}", "", text)
         text = re.sub(r"\s*data-source-line=\"[^\"]+\"", "", text)
         return text.strip()
+
+    def sanitize_title(value: str) -> str:
+        text = sanitize_text(value)
+        # Remove corrupted/combining unicode artifacts from model output.
+        text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode("ascii")
+        text = re.sub(r"\bRenssance\b", "Renaissance", text, flags=re.IGNORECASE)
+        return re.sub(r"\s+", " ", text).strip()
 
     def _clean_leading_zero(s: str) -> str:
         # Make day/hour look natural: "Mar 07" -> "Mar 7", "09:00" -> "9:00"
@@ -153,7 +161,7 @@ def render_weekly_readme(structured: dict[str, Any], run_id: str) -> str:
         for idx, event in enumerate(top_3_picks[:3], start=1):
             if not isinstance(event, dict):
                 continue
-            title = sanitize_text(str(event.get("title", "")))
+            title = sanitize_title(str(event.get("title", "")))
             date_value = sanitize_text(str(event.get("date", "")))
             end_date_value = sanitize_text(str(event.get("end_date", "")))
             location = sanitize_text(str(event.get("location", "")))
@@ -189,7 +197,7 @@ def render_weekly_readme(structured: dict[str, Any], run_id: str) -> str:
         for idx, event in enumerate(events, start=1):
             if not isinstance(event, dict):
                 continue
-            title = sanitize_text(str(event.get("title", "")))
+            title = sanitize_title(str(event.get("title", "")))
             date_value = sanitize_text(str(event.get("date", "")))
             end_date_value = sanitize_text(str(event.get("end_date", "")))
             location = sanitize_text(str(event.get("location", "")))
