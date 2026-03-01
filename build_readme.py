@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import html
 import json
 import re
 import unicodedata
@@ -13,6 +14,11 @@ from typing import Any
 from urllib.parse import urlparse, urlunparse
 
 from zoneinfo import ZoneInfo
+
+try:
+    from rich.emoji import Emoji
+except Exception:
+    Emoji = None
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent
@@ -133,6 +139,14 @@ def render_weekly_readme(structured: dict[str, Any], run_id: str) -> str:
         text = re.sub(r"\bRenssance\b", "Renaissance", text, flags=re.IGNORECASE)
         return re.sub(r"\s+", " ", text).strip()
 
+    def em(alias: str, fallback: str) -> str:
+        if Emoji is None:
+            return fallback
+        try:
+            return Emoji.replace(alias)
+        except Exception:
+            return fallback
+
     def _clean_leading_zero(s: str) -> str:
         # Make day/hour look natural: "Mar 07" -> "Mar 7", "09:00" -> "9:00"
         text = s.replace(" 0", " ")
@@ -192,7 +206,8 @@ def render_weekly_readme(structured: dict[str, Any], run_id: str) -> str:
     lines: list[str] = []
     lines.append("# Awesome SF Events")
     lines.append("")
-    lines.append("High Signal Weekly Picks for SF Bay Area Builders.")
+    lines.append("High signal weekly picks for SF Bay Area builders. Weekly lists are ranked by quality, not chronologically.")
+    lines.append("")
     lines.append(f"Updated: `{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}`.")
     lines.append("")
 
@@ -217,14 +232,14 @@ def render_weekly_readme(structured: dict[str, Any], run_id: str) -> str:
 
             when_compact = format_when_compact(date_value)
 
-            stars = "⭐" * max(1, 4 - idx)
-            title_text = f"{stars} **{title}**"
+            stars = em(":star:", "⭐") * max(1, 4 - idx)
+            title_text = f"{stars} <strong>{html.escape(title)}</strong>"
             if link:
-                lines.append(f"{title_text} — **[Sign up ->]({link})**")
-                lines.append(f"`{when_compact} | {location}`")
+                lines.append(f"<p>&nbsp;&nbsp;{title_text} — <strong><a href=\"{link}\">Sign up -></a></strong><br>")
+                lines.append(f"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>{when_compact} | {location}</code></p>")
             else:
-                lines.append(title_text)
-                lines.append(f"`{when_compact} | {location}`")
+                lines.append(f"<p>&nbsp;&nbsp;{title_text}<br>")
+                lines.append(f"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>{when_compact} | {location}</code></p>")
             lines.append("")
         lines.append("")
         lines.append("---")
@@ -268,12 +283,13 @@ def render_weekly_readme(structured: dict[str, Any], run_id: str) -> str:
             when_where = f"{format_when_range(date_value, end_date_value)} | {location}"
 
             if link:
-                lines.append(f"{idx}. **{title}** — **[Sign up ->]({link})**")
-                lines.append(f"   `{when_where}`")
+                lines.append(f"{idx}. **{title}** — **[Sign up ->]({link})**  ")
+                lines.append(f"   `{when_where}`  ")
             else:
-                lines.append(f"{idx}. **{title}**")
-                lines.append(f"   `{when_where}`")
+                lines.append(f"{idx}. **{title}**  ")
+                lines.append(f"   `{when_where}`  ")
             lines.append(f"   {reason}")
+            lines.append("")
             lines.append("")
 
         lines.append("---")
